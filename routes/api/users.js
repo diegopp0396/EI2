@@ -66,13 +66,19 @@ router.post("/register", (req, res) => {
 // @desc Test user
 // @access Public
 router.post("/login", (req, res) => {
+
+  const { erross, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(erross);
+  }
   const email = req.body.email;
   const password = req.body.password;
 
   User.findOne({ email }).then(user => {
     if (!user) {
       erross.mail = "Email incorrect";
-      return res.status(404).json({ email: "Email Not found" });
+      return res.status(404).json(erross);
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
