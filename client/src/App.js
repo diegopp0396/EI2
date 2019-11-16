@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./Components/layout/Navbar";
+import Navbar from "./Components/layout/NavBar";
 import Footer from "./Components/layout/Footer";
 import Landing from "./Components/layout/Landing";
 import Register from "./Components/auth/Register";
@@ -13,12 +13,13 @@ function App() {
     <Router>
       <div className="App">
         <Navbar></Navbar>
-        <Route exact path="/" component={Landing} />
+        <div><Route exact path="/" component={Landing} />
         <div className="container">
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
         </div>
-        <Footer />
+        </div>
+        <Footer/>
       </div>
     </Router>
   );

@@ -1,0 +1,15 @@
+.navbar {
+    padding: 100px;
+    color: red;
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.footer {
+    padding: 10px;
+    color: blue;
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
