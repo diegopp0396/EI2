@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
+import classes from "./Register.module.css";
 
 class Register extends Component {
   constructor() {
@@ -9,6 +11,7 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
+      registered: false,
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -26,77 +29,101 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    axios
-      .post("/api/users/register", newUser)
+
+    axios.post("/api/users/register", newUser)
+      .then(res => {
+        console.log(res.data)
+        this.setState({ registered: true })
+      })
+      .catch(err => {
+        console.log("[Register.ERROR]" + JSON.stringify(err.response));
+      });
+
+    /*const newProfile = {
+      handle: this.state.name,
+      status: "active",
+      skills: "No skills"
+    };
+
+    axios.post("/api/profile/", newProfile)
       .then(res => console.log(res.data))
-      .catch(err => console.log(err.response.data));
+      .catch(err => console.log("PROFILE: " + JSON.stringify(err.response.data)));*/
   }
 
   render() {
-    return (
-      <div>
-        <div className="register">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-8 m-auto">
-                <h1 className="display-4 text-center">Sign Up</h1>
-                <p className="lead text-center">
-                  Create your DevConnector account
-                </p>
-                <form onSubmit={this.onSubmit}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      placeholder="Name"
-                      name="name"
-                      value={this.state.name}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      className="form-control form-control-lg"
-                      placeholder="Email Address"
-                      name="email"
-                      value={this.state.email}
-                      onChange={this.onChange}
-                    />
-                    <small className="form-text text-muted">
-                      This site uses Gravatar so if you want a profile image,
-                      use a Gravatar email
-                    </small>
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      placeholder="Password"
-                      name="password"
-                      value={this.state.password}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      placeholder="Confirm Password"
-                      name="password2"
-                      value={this.state.password2}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                  <input
-                    type="submit"
-                    className="btn btn-info btn-block mt-4"
-                  />
-                </form>
+
+    let userRegistered = (<div className="register">
+      <div className={[classes.Register, "container"].join(' ')}>
+        <div className="row">
+          <div className="col-md-8 m-auto">
+            <h1 className="display-4 text-center">Sign Up</h1>
+            <p className="lead text-center">
+              Create your DevConnector account
+          </p>
+            <form onSubmit={this.onSubmit}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control form-control-lg"
+                  placeholder="Name"
+                  name="name"
+                  value={this.state.name}
+                  onChange={this.onChange}
+                />
               </div>
-            </div>
+              <div className="form-group">
+                <input
+                  type="email"
+                  className="form-control form-control-lg"
+                  placeholder="Email Address"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                />
+                <small className="form-text text-muted">
+                  This site uses Gravatar so if you want a profile image,
+                  use a Gravatar email
+              </small>
+              </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  className="form-control form-control-lg"
+                  placeholder="Password"
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  className="form-control form-control-lg"
+                  placeholder="Confirm Password"
+                  name="password2"
+                  value={this.state.password2}
+                  onChange={this.onChange}
+                />
+              </div>
+              <input
+                type="submit"
+                className="btn btn-info btn-block mt-4"
+              />
+            </form>
           </div>
         </div>
+      </div>
+    </div>)
+
+    if (this.state.registered) {
+      userRegistered = <Redirect to={{
+        pathname: '/',
+      }} />
+    }
+
+    return (
+      <div>
+        {userRegistered}
       </div>
     );
   }

@@ -1,0 +1,19 @@
+.UserProfile {
+    padding: 48px 40px;
+    flex-direction: column;
+    text-align: center;
+}
+
+.Profile{
+    flex-direction: row;
+    flex-flow: row;
+    box-shadow: #eee;
+    border: 2px solid #ccc;
+    box-sizing: content-box;
+    padding: 40px 0px;
+}
+
+.Image{
+    width: 100px;
+    height: 100px;
+}

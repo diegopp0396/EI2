@@ -77,7 +77,7 @@ router.post("/login", (req, res) => {
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      erross.mail = "Email incorrect";
+      erross.email = "Email incorrect";
       return res.status(404).json(erross);
     }
 
@@ -85,7 +85,7 @@ router.post("/login", (req, res) => {
       if (isMatch) {
         //Usuario
         //Usuario
-        const payload = { id: user.id, name: user.name, avatar: user.avatar };
+        const payload = { id: user.id, name: user.name, email: user.email, avatar: user.avatar };
         //Token
         jwt.sign(
           payload,
